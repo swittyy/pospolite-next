@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+
+const categories = [
+  { name: 'Processors', count: 18, icon: '◈', tone: 'violet' },
+  { name: 'Graphics', count: 12, icon: '▧', tone: 'blue' },
+  { name: 'Memory', count: 24, icon: '▤', tone: 'green' },
+  { name: 'Storage', count: 16, icon: '◫', tone: 'amber' },
+  { name: 'Motherboards', count: 9, icon: '⌘', tone: 'rose' },
+  { name: 'Cooling', count: 14, icon: '❋', tone: 'cyan' },
+];
+const total = categories.reduce((sum, category) => sum + category.count, 0);
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#171817" />
+    <meta name="description" content="A considered inventory of PC components." />
+    <title>pospolite — component index</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="pospolite home"><span class="brand-mark">p.</span><span>pospolite</span></a>
+        <div class="topbar-meta"><span class="live-dot"></span><span>COMPONENT INDEX</span><span class="meta-divider"></span><span>2026</span></div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">◐</span></button>
+      </header>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span>01</span><span>PERSONAL HARDWARE INDEX</span></div>
+          <h1 id="hero-title">Parts, without<br />the <span>noise.</span></h1>
+          <p>A small, organized collection of hardware.<br class="desktop-break" /> Find a part. Compare. Keep track.</p>
+        </div>
+        <div class="count-card">
+          <div class="count-label"><span>IN THE COLLECTION</span><span class="count-arrow">↗</span></div>
+          <div class="count-number" aria-label={total + ' components'}><span>{total}</span></div>
+          <div class="count-foot"><span>ITEMS CATALOGUED</span><span class="count-status">● UP TO DATE</span></div>
+        </div>
+      </section>
+      <section class="catalog" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div><div class="eyebrow"><span>02</span><span>COLLECTION</span></div><h2 id="catalog-title">Browse components</h2></div>
+          <div class="catalog-tools"><span class="catalog-total">{categories.length} CATEGORIES</span><label class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Filter categories" aria-label="Filter categories" /></label></div>
+        </div>
+        <div class="category-grid" id="category-grid">
+          {categories.map((category, index) => (
+            <a class="category-card" href="#" data-category={category.name.toLowerCase()}>
+              <div class="card-top"><span class:list-icon={true} class={`category-icon tone-${category.tone}`}>{category.icon}</span><span class="card-index">{String(index + 1).padStart(2, '0')}</span></div>
+              <div class="card-bottom"><div><h3>{category.name}</h3><p>Hardware category</p></div><div class="category-count"><span>{category.count}</span><span class="count-unit">items</span></div></div>
+              <span class="card-corner">↗</span>
+            </a>
+          ))}
+        </div>
+        <p class="empty-state" id="empty-state" hidden>No categories match your search.</p>
+      </section>
+      <footer class="footer"><span>POSPOLITE <span class="footer-sep">/</span> HARDWARE INDEX</span><span>MADE TO BE USEFUL <span class="footer-sep">·</span> NOT LOUD</span></footer>
+    </main>
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>
