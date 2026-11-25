@@ -1,0 +1,62 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Loader from '../components/Loader.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: '/' | '/catalog';
+}
+
+const { title, description = 'Магазин техники: компоненты для сборки ПК.', current = '/' } = Astro.props;
+const path = Astro.url.pathname;
+const isCatalog = path.startsWith('/catalog');
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c0c0d" />
+    <title>{title} · pospolite</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">pospolite<span class="dot">.</span></a>
+      <nav class="nav">
+        <a href="/" aria-current={path === '/' ? 'page' : undefined}>Главная</a>
+        <a href="/catalog" aria-current={isCatalog ? 'page' : undefined}>Каталог</a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <Loader />
+
+    <script>
+      // Первый визит — 2 секунды, дальше — 1 секунда между страницами.
+      let booted = false;
+
+      function play(ms: number) {
+        const loader = document.getElementById('loader');
+        if (!loader) return;
+        loader.classList.add('on');
+        window.setTimeout(() => loader.classList.remove('on'), ms);
+      }
+
+      document.addEventListener('astro:page-load', () => {
+        if (!booted) {
+          booted = true;
+          const firstVisit = !localStorage.getItem('pp-seen');
+          localStorage.setItem('pp-seen', '1');
+          play(firstVisit ? 2000 : 1000);
+        } else {
+          play(1000);
+        }
+      });
+    </script>
+  </body>
+</html>

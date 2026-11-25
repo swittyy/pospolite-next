@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { categories } from '../../data/catalog';
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { slug: c.slug }, props: { category: c } }));
+}
+
+const { category } = Astro.props;
+const rub = (n: number) => n.toLocaleString('ru-RU') + ' ₽';
+---
+<Layout title={category.name} current="/catalog">
+  <section class="section">
+    <a class="back" href="/catalog">← Каталог</a>
+    <p class="eyebrow">{category.items.length} позиций</p>
+    <h1 class="title">{category.name}</h1>
+
+    <ul class="list">
+      {category.items.map((item) => (
+        <li class="row">
+          <span class="name">{item.name}</span>
+          <span class={item.inStock ? 'stock in' : 'stock out'}>{item.inStock ? 'В наличии' : 'Нет в наличии'}</span>
+          <span class="price">{rub(item.price)}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .back { color: var(--muted); font-size: 0.9rem; }
+  .back:hover { color: var(--accent); }
+  .title { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 200; letter-spacing: -0.04em; margin: 0.5rem 0 2rem; }
+  .list { list-style: none; border-top: 1px solid var(--line); }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .name { font-size: 1.1rem; }
+  .stock { font-size: 0.85rem; }
+  .stock.in { color: var(--accent); }
+  .stock.out { color: var(--muted); }
+  .price { font-variant-numeric: tabular-nums; font-weight: 500; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr auto; } .stock { grid-column: 1 / -1; } }
+</style>

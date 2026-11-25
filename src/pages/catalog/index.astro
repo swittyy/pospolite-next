@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { categories } from '../../data/catalog';
+---
+<Layout title="Каталог" current="/catalog">
+  <section class="section">
+    <p class="eyebrow">Каталог</p>
+    <h1 class="title">Категории</h1>
+
+    <div class="grid">
+      {categories.map((c, i) => (
+        <a class="card" href={`/catalog/${c.slug}`}>
+          <div class="top">
+            <span class="icon">{c.icon}</span>
+            <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h2>{c.name}</h2>
+          <p>{c.items.length} позиций</p>
+          <span class="arrow">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .title { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 200; letter-spacing: -0.04em; margin: 0.5rem 0 2.5rem; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .card {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    min-height: 200px;
+    transition: transform 0.4s var(--ease), border-color 0.3s var(--ease);
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .top { display: flex; justify-content: space-between; color: var(--muted); }
+  .icon { color: var(--accent); font-size: 1.5rem; }
+  .card h2 { font-size: 1.3rem; font-weight: 500; align-self: end; }
+  .card p { color: var(--muted); font-size: 0.9rem; }
+  .arrow { position: absolute; right: 1.5rem; bottom: 1.5rem; color: var(--accent); }
+</style>
