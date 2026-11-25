@@ -31,11 +31,12 @@ const total = categories.reduce((sum, category) => sum + category.count, 0);
           <div class="eyebrow"><span>01</span><span>PERSONAL HARDWARE INDEX</span></div>
           <h1 id="hero-title">Parts, without<br />the <span>noise.</span></h1>
           <p>A small, organized collection of hardware.<br class="desktop-break" /> Find a part. Compare. Keep track.</p>
+          <div class="inline-inventory"><span class="inventory-number">{total}</span><span class="inventory-copy">components<br />in the collection</span></div>
         </div>
-        <div class="count-card">
-          <div class="count-label"><span>IN THE COLLECTION</span><span class="count-arrow">↗</span></div>
-          <div class="count-number" aria-label={total + ' components'}><span>{total}</span></div>
-          <div class="count-foot"><span>ITEMS CATALOGUED</span><span class="count-status">● UP TO DATE</span></div>
+        <div class="hero-visual" aria-label="Animated abstract pospolite symbol">
+          <div class="logo-orbit orbit-one"></div><div class="logo-orbit orbit-two"></div><div class="logo-orbit orbit-three"></div>
+          <div class="logo-core"><span>p</span><i></i></div>
+          <div class="visual-caption">P / COMPONENT INDEX</div>
         </div>
       </section>
       <section class="catalog" aria-labelledby="catalog-title">
